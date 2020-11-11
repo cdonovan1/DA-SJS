@@ -1,0 +1,31 @@
+---
+title: "Countries of the World"
+author: "Curtis Donovan"
+date: "9/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+ggplot(data = globalterrorismdb_0718dist, mapping = aes(x = iyear, y = targtype1_txt, color = success)) + geom_point() + theme(axis.text.x = element_text(angle = 90)) + labs(x = "Year", y = "Type of Target", title = "The Type of Target for Each Terrorist Attack vs The Year of Attack", subtitle = "Data points are Target Type-Years", caption = "Source: Kaggle.") + guides(fill = guide_legend(title = "Success"))
+```
+Insight: This graph tells me the relation of the year to the type of attack and whether or not the attack was a success. This graph shows that as time has gone on terrorist attacks against educational institutions have been more and more successful as time goes on. This graph also shows that terrorist attacks targeting tourism have become very common over time and that no year hasn't had one in over 30 years.
+
+
+```{r}
+ggplot(data = globalterrorismdb_0718dist, mapping = aes(x = iyear, fill = attacktype1_txt)) + geom_bar(position = "fill") + labs(x = "Year", y = "Percentage of Attacks", title = "The Type of Attack for Each Terrorist Attack vs The Year the Attack Occured", subtitle = "Data points are Attack Type-Year", caption = "Source: Kaggle.") + guides(fill = guide_legend(title = "Attack Type"))
+```
+
+Insight: This graph shows me the percentage of the type of attacks that took place in each year. This graph shows that bombing/explosion based attacks are the most frequent followed by armed assault attacks. It also shows that the percentage of assassination attacks has gone down over time.
+
+
+
+
+

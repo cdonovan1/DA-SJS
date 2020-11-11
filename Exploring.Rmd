@@ -1,0 +1,246 @@
+---
+title: "Exploring"
+author: "Curtis Donovan"
+date: "10/9/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load the necessary libraries
+```{r}
+library(tidyverse) 
+
+```
+
+Take a look inside your dataset
+```{r}
+listings
+```
+
+### Variation
+
+Perform an analysis of the variation in the "neighbourhood" column. 
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = neighbourhood)) + theme(axis.text.x = element_text(angle = 90))
+
+listings %>%
+  count(neighbourhood)
+```
+
+* Which values are the most common? Why?
+
+Ans: Listings in La Dreta de l' Eixample are the most common. This is because this neighborhood is a very big tourist attraction due to it having a booming night life and being a good residential area. It is affluent and safe, while also having amazing markets and foods.
+
+* Which values are rare? Why? Does that match your expectations?
+
+Ans: The rarest is Vallbona because it is in the hilly northern outskirts of Barcelona, and it hasn't improved or grown. It is far from everything so this does match my expectations.
+
+* Can you see any unusual patterns? What might explain them?
+
+Ans: The more affluent neighborhoods that are constantly improving have more airbnb listings. This could be because more people want to be in safer neighborhoods with an active community.
+
+Perform an analysis of the variation in the "room_type" column. 
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = room_type)) + theme(axis.text.x = element_text(angle = 90))
+
+listings %>%
+  count(room_type)
+```
+
+* Which values are the most common? Why?
+
+Ans: The private rooms and entire homes/apts are the most common. This is because these they offer the most privacy and are better booked through the airbnb website.
+
+* Which values are rare? Why? Does that match your expectations?
+
+Ans: The hotel rooms and shared rooms are the most rare, this does match my expectations because hotel rooms can just be booked through the hotel and shared rooms don't have a lot of privacy which is often key for people looking to rent.
+
+* Can you see any unusual patterns? What might explain them?
+
+Ans: I don't see any.
+
+Perform an analysis of the variation in the "price" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = price), binwidth = 10) + theme(axis.text.x = element_text(angle = 90))
+
+listings %>%
+  count(price)
+```
+
+* Which values are the most common? Why?
+
+Ans: The most common airbnb listings cost from 10-180 because people don't want overly expensive housing for their trips.
+
+* Which values are rare? Why? Does that match your expectations?
+
+Ans: Values that are less than 10 and more than 200 dollars are very rare because people leasing out their home don't want to get paid very little. Also people won't rent houses that are too expensive. This does match my expectations.
+
+* Can you see any unusual patterns? What might explain them?
+
+Ans: It is unusual that there are listings at 10,000 dollars. These might be very luxorious places where only the very wealthy can rent.
+
+Perform an analysis of the variation in the "minimum_nights" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = minimum_nights), binwidth = 100) + theme(axis.text.x = element_text(angle = 90))
+
+listings %>%
+  count(minimum_nights)
+```
+
+* Which values are the most common? Why?
+
+Ans: The values 1-60 are the most common. This is because most people use airbnb for short term stays so people let the renters choose how long they want to be there.
+
+* Which values are rare? Why? Does that match your expectations?
+
+Ans: Values over 60 are fairly rare. This is because people don't want to give up their houses for that long and most people don't want to rent the airbnb for that long. This does match my expectations.
+
+* Can you see any unusual patterns? What might explain them?
+
+Ans: It is unusual that there are some listings that require people to stay over 3 years. These might be people that won't be living at that location for a while and want to have someone else to stay there so they can profit.
+
+Perform an analysis of the variation in the "number_of_reviews" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = number_of_reviews), binwidth = 100) + theme(axis.text.x = element_text(angle = 90))
+
+listings %>%
+  count(number_of_reviews)
+```
+
+* Which values are the most common? Why?
+
+Ans: Anywhere from 0-100 reviews is the most common. This is because most airbnbs haven't been listings for that long and been used by that many people, also a lot of people don't take the time to review.
+
+* Which values are rare? Why? Does that match your expectations?
+
+Ans: Values over 100 are usually rare because that many people usually haven't rented the airbnb, plus everyone doesn't leave reviews. This matches my expectations.
+
+* Can you see any unusual patterns? What might explain them?
+
+Ans: It is unusual that some places have over 700 reviews, this could be explained by the place being used by airbnb for many years and everyone leaving reviews.
+
+Perform an analysis of the variation in the "availability_365" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = availability_365), binwidth = 100) + theme(axis.text.x = element_text(angle = 90))
+
+listings %>%
+  count(availability_365)
+```
+
+* Which values are the most common? Why?
+
+The most common values are 0, 90, 180 and over 300. This is likely because people are gone for 1/4 or 1/2 of the year. Those that are over 300 are likely because they let the people choose when they want to rent and then the owners can leave for that time.
+
+* Which values are rare? Why? Does that match your expectations?
+
+Values in between are rare because they are peculiar numbers and the owners wouldn't expect themselves to be gone for those peculiar values. This does match my expectations.
+
+* Can you see any unusual patterns? What might explain them?
+
+It is unusual that so many places have 0/365 availability. This might be because the owners live at the location full time again, or the owners just didn't fill it out.
+
+
+Question: What seems to be the most common name (of a person) in the city you selected?
+
+```{r}
+listings %>%
+  count(host_name) %>%
+  arrange(desc(n))
+```
+
+Ans: Maria is the most common host name in Barcelona.
+
+Question: Do the number of reviews affect the price of the Airbnb? How? Why do you think this happens?
+
+```{r}
+ggplot(data = listings) + geom_point(mapping = aes(x = number_of_reviews, y = price))
+
+```
+
+Ans: An airbnb with less reviews is more likely to have a higher price because less people would have stayed at it due to its higher cost. This leads to less reviews.
+
+Question: What type of room tends to have the highest Airbnb price?
+
+```{r}
+ggplot(data = listings) + geom_point(mapping = aes(x = room_type, y = price))
+```
+
+Ans: Traditionally an entire home or apartment has the highest price because they are costlier for the host so they need to sell them out for more. Plus they are the most private and offer the most luxuries.
+
+Question: What neighborhood(s) tend to have the highest Airbnb price?
+
+```{r}
+ggplot(data = listings) + geom_point(mapping = aes(x = neighbourhood, y = price)) + theme(axis.text.x = element_text(angle = 90))
+```
+
+Ans: La Dreta de l'Eixample is the neighborhood that tends to have the highest Airbnb price. This is likely because it's safe, has a great night life, and great food near.
+
+Question: Suppose you could purchase a property in the city you selected, and that you could rent it to others as an Airbnb. In what neighborhood would you want to purchase your property? Why?
+
+Ans: I would want to pruchase a property in La Dreta de l'Eixample because I think the neighbourhood will continue to be popular and grow and I like how safe it is. I think it would be a good long term investment.
+
+
+Part 3:
+
+I found an apartment for 534,000 dollars in la Dreta de l'Eixample. It is 2 bed and is at 137 Piso AV DIAGONAL 2h + 2B.
+
+Use your dataset to find what the average Airbnb price/night is in the neighborhood you selected.
+
+```{r}
+by_neighbourhood <- listings %>% 
+  group_by(neighbourhood)
+
+by_neighbourhood
+```
+```{r}
+by_neighborhood <- 
+  listings %>%
+  group_by(neighbourhood) %>%
+  summarise(average_price = mean(price))
+
+by_neighborhood
+```
+
+
+The average cost per night is 129 dollars.
+
+
+Use your dataset to to find what the average number of available nights per year is for an Airbnb in the neighborhood you selected.
+
+```{r}
+Nights_available <-
+  listings %>%
+  group_by(neighbourhood) %>%
+  summarise(Neighborhood_Availability = mean(availability_365))
+
+Nights_available
+```
+
+The airbnbs are usually available 192 days a year in la Dreta de l'Eixample.
+
+
+
+How much time would it take to get the property paid off?
+
+```{r}
+129*192
+```
+That is the dollars per year.
+
+
+```{r}
+534000/24768
+```
+
+It would take 21.56 years to get the money spent on the apartment back.
+
+
